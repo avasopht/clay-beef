@@ -1,0 +1,10 @@
+FileVersion = 1
+Projects = {clay-beef = {Path = "."}, example = {Path = "example"}, raylib-beef = {Path = "../raylib-beef/raylib-beef"}}
+
+[Workspace]
+StartupProject = "example"
+
+[Configs.Debug.wasm32]
+AllocType = "CRT"
+EnableObjectDebugFlags = false
+EmitObjectAccessCheck = false

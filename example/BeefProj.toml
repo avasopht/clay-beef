@@ -1,0 +1,12 @@
+FileVersion = 1
+Dependencies = {corlib = "*", clay-beef = "*", raylib-beef = "*"}
+
+[Project]
+Name = "example"
+TargetType = "BeefGUIApplication"
+StartupObject = "example.Example"
+
+[Configs.Debug.wasm32]
+TargetDirectory = "$(ProjectDir)\\dist\\"
+OtherLinkFlags = "$(LinkFlags) --use-preload-plugins --preload-file resource -s INITIAL_MEMORY=67108864 -s ALLOW_MEMORY_GROWTH=1 -s ASSERTIONS=1 -s SAFE_HEAP=0 -s DETERMINISTIC=1"
+PostBuildCmds = ["copy_resources.bat"]
