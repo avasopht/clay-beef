@@ -111,8 +111,7 @@ public static class Clay
 		}
 	}
 
-	[CRepr]
-	public enum ElementConfigType
+	public enum ElementConfigType : c_int
 	{
 		None,
 		Border,
@@ -124,31 +123,27 @@ public static class Clay
 		Shared,
 	}
 
-	[CRepr]
-	public enum LayoutDirection
+	public enum LayoutDirection : c_int
 	{
 		LeftToRight,
 		TopToBottom,
 	}
 
-	[CRepr]
-	public enum LayoutAlignmentX
+	public enum LayoutAlignmentX : c_int
 	{
 		Left,
 		Right,
 		Center,
 	}
 
-	[CRepr]
-	public enum LayoutAlignmentY
+	public enum LayoutAlignmentY : c_int
 	{
 		Top,
 		Bottom,
 		Center,
 	}
 
-	[CRepr]
-	public enum SizingType
+	public enum SizingType : c_int
 	{
 		Fit,
 		Grow,
@@ -277,8 +272,7 @@ public static class Clay
 		public Color color;
 	}
 
-	[CRepr]
-	public enum TextWrapMode
+	public enum TextWrapMode : c_int
 	{
 		Words,
 		Newlines,
@@ -302,8 +296,7 @@ public static class Clay
 		public Dimensions dimensions;
 	}
 
-	[CRepr]
-	public enum FloatingAttachPointType
+	public enum FloatingAttachPointType : c_int
 	{
 		LeftTop,
 		LeftCenter,
@@ -323,15 +316,13 @@ public static class Clay
 		public FloatingAttachPointType parent;
 	}
 
-	[CRepr]
-	public enum PointerCaptureMode
+	public enum PointerCaptureMode : c_int
 	{
 		Capture,
 		Passthrough,
 	}
 
-	[CRepr]
-	public enum FloatingAttachToElement
+	public enum FloatingAttachToElement : c_int
 	{
 		None,
 		Parent,
@@ -443,14 +434,14 @@ public static class Clay
 		public CustomElementConfig* customElementConfig;
 		public ScrollElementConfig* scrollElementConfig;
 		public BorderElementConfig* borderElementConfig;
-	};
+	}
 
 	[CRepr]
 	public struct ElementConfig
 	{
 		public ElementConfigType type;
 		public ElementConfigUnion config;
-	};
+	}
 
 	[CRepr]
 	public struct ScrollContainerData
@@ -470,7 +461,7 @@ public static class Clay
 		public BoundingBox boundingBox;
 		// Indicates whether an actual Element matched the provided ID or if the default struct was returned.
 		public bool found;
-	};
+	}
 
 	[CRepr]
 	public struct TextRenderData
@@ -525,8 +516,7 @@ public static class Clay
 		public BorderRenderData border;
 	}
 
-	[CRepr]
-	public enum RenderCommandType
+	public enum RenderCommandType : c_int
 	{
 		None,
 		Rectangle,
@@ -549,24 +539,22 @@ public static class Clay
 		public RenderCommandType commandType;
 	}
 
-	[CRepr]
-	public enum PointerDataInteractionState
+	public enum PointerDataInteractionState : c_int
 	{
 		ClayPointerDataPressedThisFrame,
 		ClayPointerDataPressed,
 		ClayPointerDataReleasedThisFrame,
 		ClayPointerDataReleased,
-	};
+	}
 
 	[CRepr]
 	public struct PointerData
 	{
 		public Vector2 position;
 		public PointerDataInteractionState state;
-	};
+	}
 
-	[CRepr]
-	public enum ErrorType
+	public enum ErrorType : c_int
 	{
 		TextMeasurementFunctionNotProvided,
 		ArenaCapacityExceeded,

@@ -9,7 +9,7 @@ namespace example;
 
 class ClayHomepage
 {
-	enum FontId : uint16
+	public enum FontId : uint16 : c_int
 	{
 		case Title56 = 1;
 		case Title52 = 2;
@@ -1325,7 +1325,7 @@ class ClayHomepage
 
 			float scrollHeight = scrollData.scrollContainerDimensions.height - 12;
 
-			UI(.() {
+			/*UI(.() {
 				id = ID("ScrollBar"),
 				floating = .()
 				{
@@ -1340,7 +1340,7 @@ class ClayHomepage
 				},
 				cornerRadius = CornerRadius(5),
 				backgroundColor = scrollbarColor
-			});
+			});*/
 		}
 #pragma format restore
 

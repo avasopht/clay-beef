@@ -1,4 +1,5 @@
 FileVersion = 1
+Dependencies = {corlib = "*", raylib-beef = "*"}
 
 [Project]
 Name = "clay-beef"

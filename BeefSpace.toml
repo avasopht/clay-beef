@@ -1,5 +1,5 @@
 FileVersion = 1
-Projects = {clay-beef = {Path = "."}, example = {Path = "example"}, raylib-beef = {Path = "../raylib-beef/raylib-beef"}}
+Projects = {clay-beef = {Path = "."}, example = {Path = "example"}, raylib-beef = {Path = "../../raylib-beef/raylib-beef"}}
 
 [Workspace]
 StartupProject = "example"
