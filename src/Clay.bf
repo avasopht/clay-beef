@@ -1,9 +1,23 @@
 using System;
+using System.Interop;
 
 namespace Clay;
 
+
 public static class Clay
 {
+	public typealias OnHoverFunction = function void(ElementId elementId, PointerData pointerData, void* userData);
+
+	[Comptime] public static bool Clay_PointerOver(System.String id)
+	{
+		return Clay_PointerOver(ID(id));
+	}
+	
+	public static bool Clay_PointerOver(System.String id)
+	{
+		return Clay_PointerOver(ID(id));
+	}
+
 	[CRepr]
 	public struct Array<T>
 	{
@@ -77,6 +91,8 @@ public static class Clay
 			this.b = b;
 			this.a = a;
 		}
+
+		public implicit static operator Color(RaylibBeef.Color c) => .(c.r, c.g, c.b, c.a);
 	}
 
 	[CRepr]
@@ -615,7 +631,9 @@ public static class Clay
 	[CLink] public static extern bool Clay_PointerOver(ElementId id);
 	[CLink] public static extern ElementId Clay_GetElementId(String id);
 	[CLink] public static extern ScrollContainerData Clay_GetScrollContainerData(ElementId id);
-	[CLink] public static extern void Clay_SetMeasureTextFunction(function Dimensions(StringSlice text, TextElementConfig* config, uint64* userData) measureTextFunction, uint64* userData);
+	[CLink] public static extern bool Clay_Hovered();
+	[CLink] public static extern void Clay_SetMeasureTextFunction(function Dimensions(StringSlice text, TextElementConfig* config, void* userData) measureTextFunction, void* userData);
+	[CLink] public static extern void Clay_OnHover(function void(ElementId elementId, PointerData pointerData, void* userData) onHoverFunction, void* userData);
 	[CLink] public static extern RenderCommand* Clay_RenderCommandArray_Get(Array<RenderCommand>* array, int32 index);
 	[CLink] public static extern void Clay_SetDebugModeEnabled(bool enabled);
 
@@ -638,22 +656,44 @@ public static class Clay
 		public function void() callback;
 	}
 
+	public struct DeclarationScope
+	{
+		public bool UI(ElementDeclaration config, delegate void() children = null)
+		{
+			defer
+			{
+				Clay__CloseElement();
+			}
+			Clay__ConfigureOpenElement(config);
+			if (children != null)
+			{
+				children();
+			}
+			return true;
+		}
+	}
+
+	public static DeclarationScope Elem
+	{
+		get
+		{
+			Clay__OpenElement();
+			return default;
+		}
+	}
+
 	public static bool UI(ElementDeclaration config, delegate void() children = null)
 	{
 		Clay__OpenElement();
-
 		defer
 		{
 			Clay__CloseElement();
 		}
-
 		Clay__ConfigureOpenElement(config);
-
 		if (children != null)
 		{
 			children();
 		}
-
 		return true;
 	}
 
@@ -700,6 +740,12 @@ public static class Clay
 	public static String MakeClayString(System.String label)
 	{
 		return .((.)label.Length, label);
+	}
+	
+	[Comptime]
+	public static ElementId ID(System.String label, uint32 index = 0)
+	{
+		return Clay__HashString(MakeClayString(label), index, 0);
 	}
 
 	public static ElementId ID(System.String label, uint32 index = 0)

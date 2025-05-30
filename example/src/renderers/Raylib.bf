@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Diagnostics;
+using Clay;
 
 using static RaylibBeef.Raylib;
 using static Clay.Clay;
@@ -9,32 +10,17 @@ namespace example;
 
 class RendererRaylib
 {
-	static Dictionary<uint16, RaylibBeef.Font> fonts =
-		new Dictionary<uint16, RaylibBeef.Font>() ~ delete _;
-
-	public static void LoadFont(uint16 fontId, uint16 fontSize, String path)
-	{
-		let font = LoadFontEx(path, fontSize, null, 0);
-		SetTextureFilter(font.texture, RaylibBeef.TextureFilter.TextureFilterTrilinear);
-		fonts.Add(fontId, font);
-	}
-
-	public static RaylibBeef.Font GetFont(uint16 fontId)
-	{
-		return fonts.GetValue(fontId);
-	}
-
 	public static RaylibBeef.Color ClayToRaylibColor(Color color)
 	{
 		return .((uint8)Math.Floor(color.r), (uint8)Math.Floor(color.g), (uint8)Math.Floor(color.b), (uint8)Math.Floor(color.a));
 	}
 
-	public static Dimensions MeasureText(StringSlice text, TextElementConfig* config, uint64* userData)
+	public static Dimensions MeasureText(StringSlice text, TextElementConfig* config, void* userData)
 	{
 		float maxTextWidth = 0;
 		float lineTextWidth = 0;
 		float textHeight = config.size;
-		RaylibBeef.Font fontToUse = RendererRaylib.GetFont(config.font);
+		RaylibBeef.Font fontToUse = FontManager.GetFont(config.font, config.size);
 
 		float scaleFactor = config.size / fontToUse.baseSize;
 
@@ -90,7 +76,8 @@ class RendererRaylib
 				}
 			case .Text:
 				let config = renderCommand.renderData.text;
-				let font = fonts.GetValue(config.fontId);
+				let font = FontManager.GetFont(config.fontId, config.fontSize);
+				//let font = fonts.GetValue(config.fontId);
 				let text = renderCommand.renderData.text.stringContents;
 
 				char8* chars = scope char8[text.length + 1]*;
@@ -100,6 +87,7 @@ class RendererRaylib
 				}
 
 				chars[text.length + 1] = '\0';
+
 
 				RaylibBeef.Raylib.DrawTextEx(
 					font,

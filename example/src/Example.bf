@@ -17,6 +17,7 @@ static class Example
 
 	private static void EmscriptenMainLoop()
 	{
+		Update();
 		Render();
 	}
 #endif
@@ -24,9 +25,9 @@ static class Example
 	public static void Init()
 	{
 		SetTargetFPS(60);
-		SetConfigFlags(RaylibBeef.ConfigFlags.FlagMsaa4XHint);
+		SetConfigFlags(RaylibBeef.ConfigFlags.FLAG_MSAA_4X_HINT);
 		InitWindow(1366, 768, scope $"Clay Beef");
-		SetWindowState(.FlagWindowResizable);
+		SetWindowState(.FLAG_WINDOW_RESIZABLE);
 
 		ClayHomepage.Init();
 
@@ -35,21 +36,28 @@ static class Example
 #else
 		while (!WindowShouldClose())
 		{
+            Update();
 			Render();
 		}
 #endif
 	}
+
+    static void Update()
+    {
+        let mousePos = GetMousePosition();
+        let mouseWheel = GetMouseWheelMoveV();
+
+        ClayHomepage.Update(mousePos.x, mousePos.y, mouseWheel.x, mouseWheel.y, IsMouseButtonDown(.MOUSE_BUTTON_LEFT));
+    }
 
 	static void Render()
 	{
 		BeginDrawing();
 
 		ClearBackground(RAYWHITE);
+        ClayHomepage.Draw();
 
-		let mousePos = GetMousePosition();
-		let mouseWheel = GetMouseWheelMoveV();
-
-		ClayHomepage.Update(mousePos.x, mousePos.y, mouseWheel.x, mouseWheel.y, IsMouseButtonDown(.MouseButtonLeft));
+        DrawFPS(0,0);
 
 		EndDrawing();
 	}
