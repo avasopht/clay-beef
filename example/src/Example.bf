@@ -57,8 +57,6 @@ static class Example
 		ClearBackground(RAYWHITE);
         ClayHomepage.Draw();
 
-        DrawFPS(0,0);
-
 		EndDrawing();
 	}
 
