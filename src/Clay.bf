@@ -6,6 +6,33 @@ namespace Clay;
 
 public static class Clay
 {
+	public const Color LIGHTGRAY = Color(200, 200, 200, 255);
+	public const Color GRAY = Color(130, 130, 130, 255);
+	public const Color DARKGRAY = Color(80, 80, 80, 255);
+	public const Color YELLOW = Color(253, 249, 0, 255);
+	public const Color GOLD = Color(255, 203, 0, 255);
+	public const Color ORANGE = Color(255, 161, 0, 255);
+	public const Color PINK = Color(255, 109, 194, 255);
+	public const Color RED = Color(230, 41, 55, 255);
+	public const Color MAROON = Color(190, 33, 55, 255);
+	public const Color GREEN = Color(0, 228, 48, 255);
+	public const Color LIME = Color(0, 158, 47, 255);
+	public const Color DARKGREEN = Color(0, 117, 44, 255);
+	public const Color SKYBLUE = Color(102, 191, 255, 255);
+	public const Color BLUE = Color(0, 121, 241, 255);
+	public const Color DARKBLUE = Color(0, 82, 172, 255);
+	public const Color PURPLE = Color(200, 122, 255, 255);
+	public const Color VIOLET = Color(135, 60, 190, 255);
+	public const Color DARKPURPLE = Color(112, 31, 126, 255);
+	public const Color BEIGE = Color(211, 176, 131, 255);
+	public const Color BROWN = Color(127, 106, 79, 255);
+	public const Color DARKBROWN = Color(76, 63, 47, 255);
+	public const Color WHITE = Color(255, 255, 255, 255);
+	public const Color BLACK = Color(0, 0, 0, 255);
+	public const Color BLANK = Color(0, 0, 0, 0);
+	public const Color MAGENTA = Color(255, 0, 255, 255);
+	public const Color RAYWHITE = Color(245, 245, 245, 255);
+
 	public typealias OnHoverFunction = function void(ElementId elementId, PointerData pointerData, void* userData);
 
 	[Comptime] public static bool Clay_PointerOver(System.String id)
@@ -84,6 +111,8 @@ public static class Clay
 	{
 		public float r = 0, g = 0, b = 0, a = 0;
 
+		private const float BrightnessChangeAmount = 32;
+
 		public this(float r = 0, float g = 0, float b = 0, float a = 0)
 		{
 			this.r = r;
@@ -92,7 +121,18 @@ public static class Clay
 			this.a = a;
 		}
 
-		public implicit static operator Color(RaylibBeef.Color c) => .(c.r, c.g, c.b, c.a);
+		private static float Darker(float value)
+		{
+			return Math.Max(0, value - BrightnessChangeAmount);
+		}
+
+		private static float Lighter(float value)
+		{
+			return Math.Min(255, value + BrightnessChangeAmount);
+		}
+
+		public Color Lighter => .(Lighter(r), Lighter(g), Lighter(b), a);
+		public Color Darker => .(Darker(r), Darker(g), Darker(b), a);
 	}
 
 	[CRepr]
