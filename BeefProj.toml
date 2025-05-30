@@ -11,4 +11,4 @@ LibPaths = ["$(ProjectDir)/libs/windows/clay.lib"]
 PostBuildCmds = ["CopyToDependents(\"$(ProjectDir)/libs/windows/*.lib\")"]
 
 [Configs.Release.Win64]
-LibPaths = ["$(ProjectDir)/lib/windows/clay.lib"]
+LibPaths = ["$(ProjectDir)/libs/windows/clay.lib"]
